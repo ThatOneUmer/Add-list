@@ -3,6 +3,7 @@ var pName = document.getElementById("nameInp");
 var pComp = document.getElementById("companyInp");
 var pCode = document.getElementById("codeInp");
 var err = document.getElementById("eR");
+var dB = document.getElementsByClassName("head2")[0];
 
 function addProduct() {
   if (pName.value === "" && pComp.value === "" && pCode.value === "") {
@@ -11,8 +12,11 @@ function addProduct() {
     return;
   }
 
-  err.innerText = "Add your product"
+  err.innerText = "Add your product";
   err.style.color = "black";
+  dB.style.display = "block";
+
+
 
   var proDuct = document.createElement("div");
   proDuct.setAttribute("class", "p-div");

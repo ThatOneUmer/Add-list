@@ -40,6 +40,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 35px;
 }
 
 h1{
@@ -47,7 +48,8 @@ h1{
 }
 
 .head2{
-    color: white;
+    color: green;
+    display: none;
 }
 
 .input-box
@@ -67,6 +69,7 @@ h1{
     display: flex;
     flex-direction: row;
     gap: 20px;
+    justify-content: center;
     flex-wrap: wrap;
     width: 90%;
     height: 80%;
