@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to List</title>
+    <link rel="stylesheet" href="./style.css">
+    <script defer src="./app.js"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="main-box">
+            <h1>Add your product</h1>
+            <div class="input-box">
+                <label for="nameInp">Product Name :</label>
+                <input type="text" id="nameInp" class="input" placeholder=" Your Product Name ">
+                <label for="companyInp">Product Comapny :</label>
+                <input type="text" id="companyInp" class="input" placeholder=" Your Product Company ">
+                <label for="codeInp">Product Code :</label>
+                <input type="text" id="codeInp" class="input" placeholder=" Your Product Code ">
+                <button onclick="addProduct()">Add</button>
+            </div>
+        </div>
+        <div class="card-box">
+            <h1 class="head2">Your Products</h1>
+            <div class="make-cards"></div>
+        </div>
+    </div>
+</body>
+</html>
