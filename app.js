@@ -1,52 +1,89 @@
 var cardDiv = document.getElementsByClassName("make-cards")[0];
-var pName = document.getElementById("nameInp");
-var pComp = document.getElementById("companyInp");
-var pCode = document.getElementById("codeInp");
 var err = document.getElementById("eR");
 var dB = document.getElementsByClassName("head2")[0];
 
-function addProduct() {
-  if (pName.value === "" && pComp.value === "" && pCode.value === "") {
-    err.innerText = "please input these fields";
+var addToData = readData() ? [...readData()] : [];
+
+function addtoCard(e) {
+  e.preventDefault();
+
+  var pName = document.getElementById("nameInp").value;
+  if (pName.value === "") {
+    err.innerText = "please input this field";
     err.style.color = "red";
     return;
   }
-
-  err.innerText = "Add your product";
+  err.innerText = "Add To List";
   err.style.color = "black";
   dB.style.display = "block";
 
-
-
-  var proDuct = document.createElement("div");
-  proDuct.setAttribute("class", "p-div");
-  cardDiv.appendChild(proDuct);
-
-  var proName = document.createElement("h4");
-  proName.setAttribute("class", "heading");
-  proName.innerText = `Product Name : ${pName.value}`;
-  var proComp = document.createElement("h4");
-  proComp.setAttribute("class", "heading");
-  proComp.innerText = `Product Company : ${pComp.value}`;
-  var proCode = document.createElement("h4");
-  proCode.setAttribute("class", "heading");
-  proCode.innerText = `Product Code : ${pCode.value}`;
-
-  proDuct.appendChild(proName);
-  proDuct.appendChild(proComp);
-  proDuct.appendChild(proCode);
-
-  var editBtn = document.createElement("button");
-  editBtn.innerText = "Edit";
-  proDuct.appendChild(editBtn);
-
-  var deleteBtn = document.createElement("button");
-  deleteBtn.setAttribute("onclick", "deleteCard(event)");
-  deleteBtn.innerText = "Delete";
-  proDuct.appendChild(deleteBtn);
+  var userData = new ListData(pName);
+  addToData = [...addToData, userData];
+  addedItems(addToData);
 }
 
-function deleteCard(proDuct) {
-  proDuct.target.parentElement.remove();
+function ListData(itemValue) {
+  this.listText = itemValue;
+  this.id = Math.floor(
+    Math.random() * 1000 + Number(new Date().getTime().toString().slice(-4))
+  );
+}
+
+function addedItems(data) {
+  localStorage.setItem("Added User", JSON.stringify(data));
+  cardDiv.innerHTML = "";
+  renderListItems();
+}
+
+function readData() {
+  return JSON.parse(localStorage.getItem("Added User"));
+}
+
+
+function renderListItems() {
+  for (let i = 0; i < addToData.length; i++) {
+    cardDiv.innerHTML += `<div class = "p-div" style='display:flex;'>
+      <input type='text' value='${addToData[i].listText}' class='hide'/>
+      <p>User Name : ${addToData[i].listText}</p>
+      <button onClick='editItem(event,${addToData[i].id})'>Edit</button>
+      <button id="btnHide" onClick='deleteCard(event,${addToData[i].id})'>Delete</button>
+      <button id="btnHide2" style="display: none;" onClick='deleteCard(event,${addToData[i].id})'>cancel</button>
+      </div>`;
+  }
+}
+renderListItems();
+
+function editItem(e, id) {
+  document.getElementById('btnHide').style.display = 'none';
+  document.getElementById("btnHide2").style.display = "block";
+
+  e.target.previousElementSibling.style.display = "none";
+  e.target.previousElementSibling.style.display = "none";
+  e.target.previousElementSibling.previousElementSibling.style.display =
+    "block";
+  e.target.innerText = "save";
+  var editInpValue =
+    e.target.previousElementSibling.previousElementSibling.value;
+  console.log(editInpValue);
+  e.target.setAttribute("onClick", `updatedItem(${id}, ${editInpValue})`);
+}
+
+function updatedItem(id, inptValue) {
+  for (let i = 0; i < addToData.length; i++) {
+    if (addToData[i].id === id) {
+      addToData[i] = { ...addToData[i], listText: inptValue };
+      addedItems(addToData);
+      return;
+    }
+  }
+}
+
+function deleteCard(e, id) {
+  e.target.parentElement.remove();
+  for (let i = 0; i < addToData.length; i++) {
+    if (addToData[i].id === id) {
+      localStorage.removeItem("Added User", addToData[i]);
+    }
+  }
   return;
 }
